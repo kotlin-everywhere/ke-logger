@@ -26,15 +26,12 @@ inline fun Logger.warn(msg: () -> String) {
     }
 }
 
-inline fun Logger.error(msg: () -> String) {
+inline fun Logger.error(throwable: Throwable? = null, msg: () -> String) {
     if (isInfoEnabled) {
-        error(msg())
-    }
-}
-
-@JvmName("errorThrowable")
-inline fun Logger.error(msg: () -> Pair<String, Throwable>) {
-    if (isInfoEnabled) {
-        error(msg())
+        if (throwable != null) {
+            error(msg(), throwable)
+        } else {
+            error(msg())
+        }
     }
 }
